@@ -1,5 +1,4 @@
 import random
-import os
 
 acii_art = r'''
   ____        ____        ____            
@@ -30,55 +29,102 @@ symbols = [
     ">", "/", "?"
 ]
 
-character_pool = [lower_letters, upper_letters, numbers, symbols]
-
-
-print(f"{acii_art}\nTo create a safer cyber environment.")
-
-# Input
-user_input_len = input("Welcome. How long would you like your new password to be? (Minimum: 16 characters)\nUser: ").strip()
-user_input_upper = input("Include uppercase letters? (y/n)\nUser: ").lower().strip()
-user_input_numbers = input("Include numbers? (y/n)\nUser: ").lower().strip()
-user_input_symbols = input("Include special characters? (y/n)\nUser: ").lower().strip()
-
-result = user_input_len //random.choice(character_pool)
-
-
-# Input validation
-user_input_len_isdigit = user_input_len.isdigit()
-user_input_upper_isalpha = user_input_upper.isalpha()
-user_input_numbers_isalpha = user_input_numbers.isalpha()
-user_input_symbols_isalpha = user_input_symbols.isalpha()
-
-# Calculation
-lower_count = 0
-upper_count = 0
-num_count = 0
-sym_count = 0
 
 def get_length(user_input, name_count):
     random_num = random.randint(0, user_input - 1)
     try:
         result = user_input // random_num
     except ZeroDivisionError:
-        result = 0
-    return name_count += result
+        return 1
+    return name_count + result
 
 
-if user_input_len_isdigit == True and \
-        user_input_upper_isalpha == True and \
-        user_input_numbers_isalpha == True and \
-        user_input_symbols_isalpha == True:
-    password_list = []
-    get_low = get_length(user_input_len, lower_count)
-    for num in range(1, get_low + 1):
-        low_letters = random.choice(lower_letters)
-        password_list.append(low_letters)
-    if upper_letters == "y":
-        
+def get_random(name_count, character):
+    for i in range(1, name_count + 1):
+        random_chars = random.choice(character)
+        password_list.append(random_chars)
 
-    for characters in range(1, int(user_input_len) + 1):
+print(f"{acii_art}\nTo create a safer cyber environment.")
 
-    password = "".join(password_list)
-    print (password)
+is_insecure = True
+while is_insecure:
+    user_input = input("Welcome. How long would you like your new password to be? (Minimum: 16 characters)\nUser: ").strip()
+    user_input_isdigit = user_input.isdigit()
+    if user_input_isdigit == True:
+        user_input_len = int(user_input)
+        if user_input_len >= 16:
 
+            user_input_upper = input("Include uppercase letters? (y/n)\nUser: ").strip().lower()
+            user_input_upper_isalpha = user_input_upper.isalpha()
+            if user_input_upper_isalpha == True:
+                if user_input_upper == "y" or user_input_upper == "n":
+                    user_input_numbers = input("Include numbers? (y/n)\nUser: ").strip().lower()
+                    user_input_numbers_isalpha = user_input_numbers.isalpha()
+                    if  user_input_numbers_isalpha == True:
+                        if user_input_numbers == "y" or user_input_numbers == "n":
+                            user_input_symbols = input("Include special characters? (y/n)\nUser: ").strip().lower()
+                            user_input_symbols_isalpha = user_input_symbols.isalpha()
+                            if user_input_symbols_isalpha == True:
+                                if user_input_symbols == "y" or user_input_symbols == "n":
+
+                                    upper_count = 0
+                                    num_count = 0
+                                    sym_count = 0
+
+                                    password_list = []
+
+                                    if user_input_upper == "y":
+                                        get_upper = get_length(user_input_len, upper_count)
+                                        upper_count += get_upper
+                                        if upper_count == 0:
+                                            get_random(1, upper_letters)
+                                        else:
+                                            get_random(upper_count, upper_letters)
+                                    if user_input_numbers == "y" and len(password_list) != user_input_len:
+                                        num_length = user_input_len - len(password_list)
+                                        get_num = get_length(num_length, num_count)
+                                        num_count += get_num
+                                        if num_count == 0:
+                                            get_random(1, numbers)
+                                        else:
+                                            get_random(num_count, numbers)
+                                    if user_input_symbols == "y" and len(password_list) != user_input_len:
+                                        sym_length = user_input_len - len(password_list)
+                                        get_sym = get_length(sym_length, sym_count)
+                                        sym_count += get_sym
+                                        if sym_count == 0:
+                                            get_random(1, symbols)
+                                        else:
+                                            get_random(sym_count, symbols)
+                                    if len(password_list) != user_input_len:
+                                        low_length = user_input_len - len(password_list)
+                                        get_random(low_length, lower_letters)
+
+                                    random.shuffle(password_list)
+                                    password = "".join(password_list)
+                                    print(password)
+                                    is_insecure = False
+                                else:
+                                    print("Your input appears to be incorrect.")
+                                    continue
+                            else:
+                                print("Your input appears to be incorrect.")
+                                continue
+                        else:
+                            print("Your input appears to be incorrect.")
+                            continue
+                    else:
+                        print("Your input appears to be incorrect.")
+                        continue
+                else:
+                    print("Your input appears to be incorrect.")
+                    continue
+            else:
+                print("Your input appears to be incorrect.")
+                continue
+        else:
+            print("Your password is below the recommended length of 16 characters.")
+            continue
+    else:
+        print("Your input appears to be incorrect.")
+        continue
