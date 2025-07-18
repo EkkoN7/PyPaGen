@@ -26,3 +26,4 @@ Key features and design choices:
   * **Title Design:** The ASCII art for the title was created using [this generator](https://budavariam.github.io/asciiart-text/).
 
 ![Screenshot](Screenshot.png)
+This project was developed as a first step in exploring secure coding practices.
