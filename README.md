@@ -1,5 +1,3 @@
-Here's a corrected and improved version of your `README.md` file:
-
 ```
  ____         ____         ____
 |  _ \ _   _|  _ \ __ _ / ___| ___ _ __
